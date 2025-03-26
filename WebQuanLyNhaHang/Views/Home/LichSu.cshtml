@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Http
+@model WebQuanLyNhaHang.ViewModel.LichSuOderViewModel
+ 
+@{
+    int? BanId = Context.Session.GetInt32("BanId");
+}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="jquery-3.2.1.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="~/asset/font/fontawesome-free-6.5.2-web/fontawesome-free-6.5.2-web/css/all.min.css">
+
+    <link rel="stylesheet" href="~/asset/css/base.css">
+    <link rel="stylesheet" href="~/asset/css/home.css">
+    <link rel="stylesheet" href="~/asset/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="btl.css">
+    <link rel="stylesheet" href="style.css"> <!-- Liên kết tới tệp style.css -->
+    <link rel="stylesheet" href="~/asset/css/card.css">
+    <title>Kính chào quý khách</title>
+</head>
+<body>
+    <div class="foreground">
+        <div class="header__card">
+            <div class=" text__cart-title">
+                <div>
+                    <div>
+                        <a asp-controller="Home" asp-action="Service" class="btn-back">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="page-title" >
+                    Tại Bàn @BanId
+                </div>
+                <div class="clear-button__container" style="width:10px;">
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="container__card">
+            @foreach (var donHang in Model.FindOrdersByBanId(BanId))
+            {
+
+                <div class="bought--item">
+                    <span>Đơn Hàng : @donHang.DhId , Khách Hàng : @donHang.GhiChu</span>
+
+                    @foreach (var product in Model.FindProductsByOrderId(donHang.DhId))
+                    {
+                        <div class="item-editor">
+                            <div class="item-box">
+                                <div class="item-inner--right">
+                                    <div class="card-img" style="background-image: url(@product.PathPhoto);">
+                                    </div>
+                                    <div class="card-product-info">
+                                        <span>
+                                            <span style="color: var(--primary--color)">@product.SoLuong</span> @product.TenSanPham
+                                        </span>
+                                        <span class="card-product--price">
+                                            @String.Format("{0:N0}", product.ThanhTien)đ
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="card__total-price">
+            <div>Tổng Tiền</div>
+            <div>@String.Format("{0:N0}", @Model.TinhTongTienTheoBanId(BanId))đ</div>
+        </div>
+        <div class="btn-sumbit">
+            <button class="buy__item outline" style="background-color: rgb(247, 148, 30); height: 44px;">
+                Gọi Thanh Toán
+            </button>
+        </div>
+
+    </div>
+</body>
+</html>
+
+

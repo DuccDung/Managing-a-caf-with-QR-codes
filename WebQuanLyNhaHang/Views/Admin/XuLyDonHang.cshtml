@@ -1,0 +1,222 @@
+﻿@{
+    Layout = "Header_Left_Layout";
+} 
+@model WebQuanLyNhaHang.ViewModel.DonHang_KhachHang
+<!-- Main -->
+<style>
+    .admin-order-notification {
+        background-color: #fff;
+        width: 450px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: left;
+    }
+
+    .admin-order-notification h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .order-info,
+    .product-details {
+        margin-bottom: 20px;
+    }
+
+    .order-info p {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 8px;
+        line-height: 1.5;
+    }
+
+    .order-info strong {
+        color: #333;
+    }
+
+    .product-details h3 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .product-table th,
+    .product-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .product-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .order-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .confirm-btn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .confirm-btn:hover {
+        background-color: #45a049;
+    }
+
+    .cancel-btn {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .cancel-btn:hover {
+        background-color: #e53935;
+    }
+
+    .print-btn {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .print-btn:hover {
+        background-color: #0069d9;
+    }
+</style>
+<div class="content-wrapper">
+    <!-- Container-fluid starts -->
+    <!-- Main content starts -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 p-0">
+                <div class="main-header">
+                    <h4>Đơn Hàng Chưa Được Xác Nhận</h4>
+                    <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Admin" asp-action="Index">
+                                <i class="icofont icofont-home"></i>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">Đơn Hàng Online</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="basic-table.html">Chi Tiết Đơn Hàng</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Content -->
+            <!-- Form xác nhận thành công, mặc định ẩn -->
+            <div id="successForm" style="display: none; text-align: center; background-color: #f0f8ff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                <h2>Giao Hàng Thành Công!</h2>
+                <p>Đơn hàng của bạn đã được xác nhận là giao hàng thành công.</p>
+                <button class="btn confirm-btn" onclick="redirectToHoanThanh()">Tiếp Tục</button>
+            </div>
+            <!-- Form xác nhận hủy đơn hàng, mặc định ẩn -->
+            <div id="cancelForm" style="display: none; text-align: center; background-color: #ffcccc; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                <h2>Hủy Đơn Hàng</h2>
+                <p>Bạn có chắc chắn muốn hủy đơn hàng này không?</p>
+                <button class="btn cancel-btn" onclick="redirectToHuyDonHang()">Tiếp Tục</button>
+                <button class="btn confirm-btn" onclick="hideCancelForm()">Quay Lại</button>
+            </div>
+
+            <div class="admin-order-notification">
+                <h2>Đơn hàng mới từ khách hàng</h2>
+
+                <!-- Phần thông tin chính cần in -->
+                <div class="order-info" id="printableMainInfo">
+                    <p><strong>Mã đơn hàng:</strong> #<span id="orderId">@Model.DhId</span></p>
+                    <p><strong>Khách hàng:</strong> <span id="customerName">@Model.TenKhachHang</span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="customerPhone">@Model.SoDienThoai</span></p>
+                    <p>
+                        <strong>Địa chỉ giao hàng:</strong> <span id="customerAddress">
+                            @Model.DiaChi
+                        </span>
+                    </p>
+                    <p><strong>Tổng tiền:</strong> <span id="totalPrice">@string.Format("{0:N0}", Model.TongTien)VNĐ</span></p>
+                    <p><strong>Phương thức thanh toán:</strong> Thanh toán khi nhận hàng</p>
+                </div>
+
+                <!-- Phần chi tiết sản phẩm (không in) -->
+                @await Component.InvokeAsync("CTDH_Online", Model.DhId)
+
+                <div class="order-actions">
+                    <button class="btn btn-info" onclick="printMainInfo()">In Đơn Hàng</button>
+                    <button type="button" class="btn confirm-btn" onclick="showSuccessForm(@Model.DhId)">Hoàn Thành</button>
+                    <button type="button" class="btn cancel-btn" onclick="showCancelForm(@Model.DhId)">Hủy Đơn Hàng</button>
+                </div>
+            </div>
+
+           
+
+            <!-- Content end -->
+        </div>
+    </div>
+</div>
+   
+
+
+<script>
+    function printMainInfo() {
+        var printContents = document.getElementById("printableMainInfo").innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+<script>
+    let orderId; // Biến toàn cục để lưu ID đơn hàng
+
+    function showSuccessForm(id) {
+        orderId = id; // Lưu ID đơn hàng vào biến
+        document.getElementById("successForm").style.display = "block"; // Hiển thị form thành công
+    }
+
+    function redirectToHoanThanh() {
+        // Chuyển hướng đến action "HoanThanh" của Controller
+        window.location.href = '@Url.Action("HoanThanh", "Admin")' + '?DhId=' + orderId;
+    }
+</script>
+<script>
+    let cancelOrderId; // Biến toàn cục để lưu ID đơn hàng
+
+    function showCancelForm(id) {
+        cancelOrderId = id; // Lưu ID đơn hàng vào biến
+        document.getElementById("cancelForm").style.display = "block"; // Hiển thị form hủy
+    }
+
+    function hideCancelForm() {
+        document.getElementById("cancelForm").style.display = "none"; // Ẩn form hủy khi nhấn "Quay Lại"
+    }
+
+    function redirectToHuyDonHang() {
+        // Chuyển hướng đến action "HuyDonHang" của Controller
+        window.location.href = '@Url.Action("HuyDonHang", "Admin")' + '?DhId=' + cancelOrderId;
+    }
+</script>
+
+
+<!--End Main -->

@@ -1,0 +1,701 @@
+﻿@{
+    Layout = "HeaderFooter_TrangChu";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container-lg {
+        display: flex;
+        flex-wrap: wrap;
+        /* Để đảm bảo các div xuống dòng khi không đủ không gian */
+        gap: 1rem;
+        /* Khoảng cách giữa các div */
+    }
+
+    /* Thiết lập kiểu cho từng .tch-checkout-box */
+    .tch-checkout-box {
+        flex: 1 1 100%;
+        /* Đảm bảo chiếm toàn bộ chiều rộng màn hình khi ở chế độ mobile */
+    }
+
+    body {
+        background-color: #fff;
+        color: #212529;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        margin: 0;
+        text-align: left;
+    }
+
+    :root {
+        --font-main: SF-Pro-Text-Light;
+        --radial-gradient-orange-1: radial-gradient(100% 501.4% at 0% 100%, #ffb141 0%, #fb8d17 100%);
+        --radial-gradient-orange-2: radial-gradient(100% 501.4% at 100% 100%, #ffb141 0%, #fb8d17 100%);
+        --radial-gradient-orange-3: radial-gradient(100% 100% at 0% 0%, #f5222d 0%, #fb8d17 100%);
+        --radial-gradient-orange-4: radial-gradient(100% 488.28% at 0% 100%, #e87800 0%, #fa8c16 100%);
+        --radial-gradient-orange-5: radial-gradient(100% 1636.16% at 100% 0%, #fff2d8 0%, #ffe7ba 100%);
+        --radial-gradient-orange-6: radial-gradient(100% 500% at 0% 0%, #fa8c16 0%, #874d00 100%);
+        --radial-gradient-orange-7: radial-gradient(100% 501.4% at 0% 100%, #fb8d17 0%, #ffb141 100%);
+        --radial-gradient-orange-8: radial-gradient(100% 584.59% at 0% 50%, #d46b08 0%, #874d00 100%);
+        --radial-gradient-orange-9: radial-gradient(75.9% 488.28% at 24.1% 100%, #e87800 0%, #fa8c16 100%);
+        --radial-gradient-orange-10: radial-gradient(100% 828.83% at 0% 100%, #e87800 0%, #fa8c16 100%);
+        --orange-1: rgba(232, 130, 21, .7);
+        --orange-2: #fa8c16;
+        --orange-3: rgba(255, 231, 186, .6);
+        --orange-4: #ff792c;
+        --orange-5: #e57905;
+        --radial-gradient-yellow: radial-gradient(100% 1636.16% at 100% 0%, #fff2d8 0%, #ffe7ba 100%);
+        --white: #fff;
+        --white-1: #f5f5f5;
+        --nude-1: #fff7e6;
+        --nude-2: #ffe7ba;
+        --red: red;
+        --red-2: #f5222d;
+        --radial-gradient-black: radial-gradient(105.77% 105.77% at 100% 100%, #000 0%, #4f4f4f 100%);
+        --radial-gradient-black-2: radial-gradient(100% 4870.88% at 0% 0%, #262626 0%, #626262 100%);
+        --black: #000;
+        --black-1: #252627;
+        --black-2: #666;
+        --black-3: #262626;
+        --black-4: rgba(38, 38, 38, .5);
+        --black-6: rgba(38, 38, 38, .5);
+        --black-5: rgba(0, 0, 0, .35);
+        --smoky-gray: #f2f2f2;
+        --smoky-gray-2: #b2b2b2;
+        --smoky-gray-3: rgba(0, 0, 0, .6);
+        --smoky-gray-4: #ededee;
+        --smoky-gray-5: hsla(0, 0%, 77%, .3);
+        --smoky-gray-6: #e4e4e4;
+        --green: #52c41a;
+        --blue: #0084ff;
+        --product-box-shadow: 0px 10px 20px rgba(0, 0, 0, .1);
+        --scale-unit: 1rem;
+        --space-2: calc(var(--scale-unit)* 0.125);
+        --space-4: calc(var(--scale-unit)* 0.25);
+        --space-6: calc(var(--scale-unit)* 0.375);
+        --space-8: calc(var(--scale-unit)* 0.5);
+        --space-10: calc(var(--scale-unit)* 0.625);
+        --space-12: calc(var(--scale-unit)* 0.75);
+        --space-14: calc(var(--scale-unit)* 0.875);
+        --space-15: calc(var(--scale-unit)* 0.9375);
+        --space-16: calc(var(--scale-unit)* 0.8375);
+        --space-18: calc(var(--scale-unit)* 1.125);
+        --space-20: calc(var(--scale-unit)* 1.25);
+        --space-22: calc(var(--scale-unit)* 1.375);
+        --space-24: calc(var(--scale-unit)* 1.5);
+        --space-26: calc(var(--scale-unit)* 1.625);
+        --space-28: calc(var(--scale-unit)* 1.75);
+        --space-30: calc(var(--scale-unit)* 1.875);
+        --space-32: calc(var(--scale-unit)* 2);
+        --space-36: calc(var(--scale-unit)* 2.25);
+        --space-38: calc(var(--scale-unit)* 2.375);
+        --space-40: calc(var(--scale-unit)* 2.5);
+        --space-42: calc(var(--scale-unit)* 2.625);
+        --space-44: calc(var(--scale-unit)* 2.75);
+        --space-46: calc(var(--scale-unit)* 2.875);
+        --space-48: calc(var(--scale-unit)* 3);
+        --space-50: calc(var(--scale-unit)* 3.125);
+        --space-52: calc(var(--scale-unit)* 3.25);
+        --space-54: calc(var(--scale-unit)* 3.375);
+        --space-56: calc(var(--scale-unit)* 3.5);
+        --space-58: calc(var(--scale-unit)* 3.625);
+        --space-60: calc(var(--scale-unit)* 3.75);
+        --space-62: calc(var(--scale-unit)* 3.875);
+        --space-64: calc(var(--scale-unit)* 4);
+        --space-66: calc(var(--scale-unit)* 4.125);
+        --space-68: calc(var(--scale-unit)* 4.25);
+        --space-70: calc(var(--scale-unit)* 4.375);
+        --space-72: calc(var(--scale-unit)* 4.5);
+        --space-74: calc(var(--scale-unit)* 4.625);
+        --space-76: calc(var(--scale-unit)* 4.75);
+        --space-78: calc(var(--scale-unit)* 4.875);
+        --space-80: calc(var(--scale-unit)* 5);
+        --space-84: calc(var(--scale-unit)* 5.25);
+        --space-86: calc(var(--scale-unit)* 5.375);
+        --space-88: calc(var(--scale-unit)* 5.5);
+        --space-90: calc(var(--scale-unit)* 5.625);
+        --space-94: calc(var(--scale-unit)* 5.875);
+        --space-98: calc(var(--scale-unit)* 6.125);
+        --space-100: calc(var(--scale-unit)* 6.25);
+        --space-102: calc(var(--scale-unit)* 6.375);
+        --space-104: calc(var(--scale-unit)* 6.5);
+        --space-108: calc(var(--scale-unit)* 6.75);
+        --space-110: calc(var(--scale-unit)* 6.875);
+        --space-112: calc(var(--scale-unit)* 7);
+        --space-114: calc(var(--scale-unit)* 7.125);
+        --space-118: calc(var(--scale-unit)* 7.375);
+        --space-122: calc(var(--scale-unit)* 7.625);
+        --space-128: calc(var(--scale-unit)* 8);
+        --space-132: calc(var(--scale-unit)* 8.25);
+        --space-138: calc(var(--scale-unit)* 8.625);
+        --space-140: calc(var(--scale-unit)* 8.75);
+        --space-150: calc(var(--scale-unit)* 9.375);
+        --space-152: calc(var(--scale-unit)* 9.5);
+        --space-156: calc(var(--scale-unit)* 9.75);
+        --space-160: calc(var(--scale-unit)* 10);
+        --space-166: calc(var(--scale-unit)* 10.375);
+        --space-176: calc(var(--scale-unit)* 11);
+        --space-184: calc(var(--scale-unit)* 11.5);
+        --space-188: calc(var(--scale-unit)* 11.75);
+        --space-196: calc(var(--scale-unit)* 12.25);
+        --space-200: calc(var(--scale-unit)* 12.5);
+        --space-210: calc(var(--scale-unit)* 13.125);
+        --space-250: calc(var(--scale-unit)* 15.625);
+        --space-252: calc(var(--scale-unit)* 15.75);
+        --space-260: calc(var(--scale-unit)* 16.25);
+        --space-278: calc(var(--scale-unit)* 17.375);
+        --space-280: calc(var(--scale-unit)* 17.5);
+        --space-300: calc(var(--scale-unit)* 18.75);
+        --space-310: calc(var(--scale-unit)* 19.375);
+        --space-336: calc(var(--scale-unit)* 21);
+        --space-342: calc(var(--scale-unit)* 21.4375);
+        --space-356: calc(var(--scale-unit)* 22.25);
+        --space-360: calc(var(--scale-unit)* 22.5);
+        --space-376: calc(var(--scale-unit)* 23.5);
+        --space-410: calc(var(--scale-unit)* 25.625);
+        --space-420: calc(var(--scale-unit)* 26.25);
+        --space-464: calc(var(--scale-unit)* 29);
+        --space-520: calc(var(--scale-unit)* 32.5);
+        --space-548: calc(var(--scale-unit)* 34.25);
+        --space-588: calc(var(--scale-unit)* 33);
+        --space-640: calc(var(--scale-unit)* 40);
+        --space-750: calc(var(--scale-unit)* 46.875);
+        --space-786: calc(var(--scale-unit)* 48);
+        --space-1112: calc(var(--scale-unit)* 69.5);
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .mr-3 {
+        color: rgb(247, 148, 30);
+        padding: 0 20px;
+        font-size: 30px;
+    }
+
+
+    .tch-checkout-box.tch-checkout-box--list-submited {
+        background: var(--radial-gradient-orange-9);
+        bottom: var(--space-70);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+        left: 0;
+        padding: var(--space-16) 15px;
+        position: fixed;
+        z-index: 999;
+    }
+
+    .justify-content-between {
+        justify-content: space-between !important;
+    }
+
+    .d-flex {
+        display: flex !important;
+    }
+
+    .tch-checkout-box__title {
+        color: var(--black-3);
+        font-size: var(--space-18);
+        font-weight: 600;
+        line-height: var(--space-26);
+        padding-bottom: var(--space-6);
+        position: relative;
+    }
+
+
+    .tch-checkout-box__btn-outline {
+        background: #fa8c16;
+        border-radius: var(--space-100);
+        cursor: pointer;
+        font-size: var(--space-12);
+        line-height: var(--space-22);
+        padding: 7px var(--space-12);
+        color: #fff;
+    }
+
+    p {
+        margin-bottom: 1rem;
+        margin-top: 0;
+    }
+
+    .tch-delivery-card,
+    .tch-order-card {
+        cursor: pointer;
+        padding: var(--space-12) 0;
+    }
+
+    .tch-delivery-card--border,
+    .tch-order-card--border {
+        position: relative;
+        width: 100%;
+    }
+
+        .tch-delivery-card--border:after {
+            width: calc(100% - 56px);
+            background-color: #c4c4c4;
+            bottom: -1px;
+            content: "";
+            height: 1px;
+            opacity: .3;
+            position: absolute;
+            right: 0;
+        }
+
+    .align-items-start {
+        align-items: flex-start !important;
+    }
+
+    .flex-row {
+        flex-direction: row !important;
+    }
+
+    .tch-delivery-card .tch-delivery-card__image {
+        width: var(--space-44);
+    }
+
+    .tch-delivery-card__content {
+        padding-left: var(--space-12);
+    }
+
+    .tch-delivery-card__content,
+    .tch-order-card .tch-order-card__content {
+        color: var(--black-3);
+        flex: 1;
+    }
+
+    .tch-delivery-card__title,
+    .tch-order-card__text,
+    .tch-order-card__title {
+        display: -webkit-box;
+        font-size: var(--space-16);
+        height: 24px;
+        line-height: var(--space-24);
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .tch-delivery-card__description,
+    .tch-order-card__description {
+        font-size: var(--space-14);
+        line-height: var(--space-22);
+    }
+
+    .tch-delivery-card .icon {
+        font-size: var(--space-24);
+        line-height: 1;
+        padding-left: var(--space-30);
+    }
+
+    .mt-2 {
+        margin-top: .5rem !important;
+    }
+
+    .fa {
+        font-weight: 900;
+        font-style: normal;
+    }
+
+    .pb-0 {
+        padding-bottom: 0 !important;
+    }
+
+    .ptl-20 {
+        padding: 0 var(--space-20);
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+        .form-group input,
+        .custom-control input {
+            background-color: transparent;
+            border: 1px solid rgba(0, 0, 0, .15);
+            border-radius: 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            outline: 0;
+            padding: 11px 23px;
+        }
+
+    .tch-delivery__input:focus {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .form-control:focus {
+        background-color: #fff;
+        border-color: #f39200;
+        box-shadow: 0 0 0 .2rem rgba(239, 117, 4, 0.25);
+        color: #495057;
+        outline: 0;
+    }
+
+    /******/
+    .tch-checkout-box {
+        padding: var(--space-16) 0;
+    }
+
+    .w-100 {
+        width: 100% !important;
+    }
+
+    a {
+        background-color: transparent;
+        text-decoration: none;
+    }
+
+    /*icon but*/
+    .tch-order-card__left .tch-order-card__icon {
+        color: var(--orange-2);
+        font-size: var(--space-16);
+        line-height: 1;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    /**/
+    .tch-order-card .tch-order-card__content {
+        padding-left: var(--space-18);
+    }
+
+    .tch-order-card--border:after {
+        width: 100%;
+    }
+
+    .tch-delivery-card--border:after,
+    .tch-order-card--border:after {
+        background-color: #c4c4c4;
+        bottom: -1px;
+        content: "";
+        height: 1px;
+        opacity: .3;
+        position: absolute;
+        right: 0;
+    }
+
+    :after {
+        box-sizing: border-box;
+    }
+
+    .price-discount {
+        color: var(--black-4);
+        font-size: 16px;
+        line-height: var(--space-14);
+        -webkit-text-decoration: line-through;
+        text-decoration: line-through;
+    }
+
+    .tch-order-card .tch-order-card__text.orange,
+    .tch-order-card__right .icon.orange {
+        color: var(--orange-2);
+    }
+
+    .position-static {
+        position: static !important;
+    }
+
+    .text-white {
+        color: #fff;
+    }
+
+    .btn:not(:disabled):not(.disabled) {
+        cursor: pointer;
+    }
+
+    .btn.btn--white {
+        background: var(--white);
+        border-radius: 50%;
+    }
+
+    .btn {
+        padding: var(--space-6) var(--space-22);
+    }
+
+    .text-orange {
+        color: var(--orange-2);
+    }
+
+        .text-orange:hover {
+            color: #ffb141;
+            border: none;
+        }
+
+    .btn {
+        border: 1px solid transparent;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        padding: .375rem .75rem;
+        text-align: center;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        user-select: none;
+        vertical-align: middle;
+    }
+
+    .tch-checkout-box.tch-checkout-box--remove-card {
+        cursor: pointer;
+    }
+
+    .tch-checkout-box__text {
+        color: var(--orange-2);
+        font-size: var(--space-16);
+    }
+
+        .tch-checkout-box__text .icon {
+            font-size: var(--space-20);
+            line-height: 1;
+        }
+
+    .mr-2,
+    .mx-2 {
+        margin-right: .5rem !important;
+    }
+
+    /*thanh toan*/
+    .tch-list-payment-method {
+        list-style: none;
+    }
+
+    ul {
+        margin-left: 20px;
+    }
+
+    .policy-link {
+        color: #fa8c16;
+    }
+
+    .tch-list-payment-method .tch-payment-method-item {
+        border-bottom: 1px solid #c4c4c4;
+        padding: var(--space-16) 0;
+    }
+
+    input[type=radio] {
+        box-sizing: border-box;
+        padding: 0;
+    }
+
+
+    .tch-payment-method-item img {
+        height: var(--space-16);
+        -o-object-fit: cover;
+        object-fit: cover;
+        width: var(--space-24);
+    }
+
+    img,
+    svg {
+        vertical-align: middle;
+    }
+
+    img {
+        border-style: none;
+    }
+
+    .checkbox-button__input:checked + .checkbox-button__control {
+        border-color: #fa8c16;
+    }
+
+    .checkbox-button__control {
+        transform: scale(.75);
+    }
+
+    .checkbox-button__control {
+        background-color: inherit;
+        border: 3px solid #666;
+        color: #fa8c16;
+        display: inline-block;
+        height: 25px;
+        margin-right: 12px;
+        position: relative;
+        vertical-align: middle;
+        width: 25px;
+    }
+
+    .checkbox-button__input {
+        display: none;
+        /* Ẩn checkbox gốc */
+    }
+
+        .checkbox-button__input:checked + .checkbox-button__control:after {
+            background: url(https://minio.thecoffeehouse.com/images/tch-web-order/Vector.png);
+            content: "";
+            display: block;
+            font-size: 69px;
+            height: 10px;
+            left: 3px;
+            position: absolute;
+            top: 3px;
+            width: 12px;
+        }
+
+
+    .tch-checkout-box.tch-checkout-box--delivery {
+        padding-bottom: var(--space-30);
+    }
+
+    .tch-checkout-box {
+        padding: var(--space-16) 0;
+        width: 100%;
+    }
+
+    .d-none {
+        display: none;
+    }
+
+    .tch-checkout-box.tch-checkout-box--list-submited {
+        background: var(--radial-gradient-orange-9);
+        bottom: var(--space-70);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+        left: 0;
+        padding: var(--space-16) 15px;
+        position: fixed;
+        z-index: 999;
+    }
+</style>
+
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+
+                <div class="text-center my-4">
+                    <h1 style="color: #495057;">Xác nhận đơn hàng</h1>
+                </div>
+
+                <div class="ml-lg--50 d-block">
+                    <!-- Thông Tin Địa Chỉ  -->
+                    <form class="tch-checkout-box tch-checkout-box--delivery tch-checkout-border float-lg-left">
+                        <div class="tch-checkout-custom-mobile d-flex justify-content-between">
+                            <h4 class="tch-checkout-box__title">Giao hàng</h4>
+                        </div>
+                        <div class="d-flex flex-row align-items-start tch-delivery-card tch-delivery-card--border">
+                            <div class="tch-delivery-card__image">
+                                <img width="40"
+                                     src="https://minio.thecoffeehouse.com/images/tch-web-order/Delivery2.png" alt="">
+                            </div>
+                            <div data-toggle="modal" data-target="#abc"
+                                 class="d-flex justify-content-between align-items-start tch-delivery-card__content">
+                                <div>
+                                    <h5 class="tch-delivery-card__title mb-0">Đại Học Công Nghiệp TP.HCM IUH</h5>    @* Địa CHỈ *@
+                                    <p class="tch-delivery-card__description mb-0">
+                                        Đại Học Công Nghiệp TP.HCM IUH, 12
+                                        Nguyễn Văn Bảo, Phường 4, Gò Vấp, Hồ Chí Minh, Việt Nam
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="name" autocomplete="off" placeholder="Tên người nhận" @* Tên *@
+                                   class="form-control tch-delivery__input">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="phone" autocomplete="off" placeholder="Số điện thoại" @* Nhập Số điện Thoại *@
+                                   class="form-control tch-delivery__input">
+                        </div> <!---->
+                        <div class="form-group mb-0">
+                            <input type="text" id="note" autocomplete="off" placeholder="Thêm hướng dẫn giao hàng" @* noie hướng dẫn *@
+                                   class="form-control tch-delivery__input">
+                        </div>
+                    </form>
+
+                    <div class="d-none tch-checkout-box tch-checkout-box--lg-shadowbox d-lg-block float-lg-right pb-0 pt-0">
+                        <div class="ptl-20">
+                            <div class="tch-checkout-box tch-checkout-box--list-ordered tch-checkout-border w-100">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="tch-checkout-box__title mb-0">Các món đã chọn</h4>
+                                </div>
+                                <div data-toggle="modal" data-target="#cardModal"
+                                     class="tch-order-card d-flex align-items-center justify-content-between">
+                                    <div class="tch-order-card__left d-flex">
+                                        <div class="tch-order-card__content">
+                                            <h5 class="tch-order-card__title mb-0">
+                                                <span style="color: #d46b08;">3 x</span> Bạc Xỉu Lắc Sữa Yến Mạch
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="tch-order-card__right">
+                                        <p class="tch-order-card__price mb-0">135.000đ</p>
+                                    </div>
+
+                                </div>       @* Thông tin sản phẩm *@
+                            </div>
+                            <div class="tch-checkout-box tch-checkout-box--list-total tch-checkout-border w-100">
+                                <div class="mb--12">
+                                    <h4 class="tch-checkout-box__title">Tổng cộng</h4>
+                                </div>
+                                <div data-toggle="modal" data-target="#delivery-time"
+                                     class="tch-order-card tch-order-card--border d-flex align-items-center justify-content-between">
+                                    <div class="tch-order-card__left d-flex">
+                                        <p class="tch-order-card__text mb-0">Thành tiền</p>
+                                    </div>
+                                    <div class="tch-order-card__right">
+                                        <p class="tch-order-card__price mb-0">135.000đ</p>  @* Thành tiền  1 chi tiết sản phẩm*@
+                                    </div>
+                                </div>
+                                @*  <div class="tch-order-card d-flex align-items-center justify-content-between">
+                                <div class="tch-order-card__left d-flex">
+                                <p class="tch-order-card__text mb-0">Phí giao hàng</p>
+                                </div>
+                                <div class="tch-order-card__right">
+                                <p class="tch-order-card__price mb-0">0đ</p>
+                                </div>
+                                </div> *@
+                                <div class="tch-order-card tch-order-card--border d-flex align-items-center justify-content-between"
+                                     style="margin-top: -25px;">
+                                    <div class="tch-order-card__left d-flex">
+                                        <p class="tch-order-card__text mb-0">Bạn có mã Freeship trong mục Ưu đãi</p>
+                                    </div>
+                                    <div class="tch-order-card__right price-discount">
+                                        <p class="tch-order-card__price mb-0">0đ</p>
+                                    </div>
+                                </div>
+                                <div data-toggle="modal" data-target="#sale-modal"
+                                     class="tch-order-card d-flex align-items-center justify-content-between cursor-pointer">
+                                    <div class="tch-order-card__left tch-order-tch-order-card__left-custom-custom"
+                                         style="flex: 1 1 0%;">
+                                        <p class="tch-order-card__text orange mb-0">Khuyến mãi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tch-checkout-box tch-checkout-box--list-submited d-flex justify-content-between w-100 position-static">
+                            <div>
+                                <p class="tch-order-card__text text-white mb-0">Thành tiền</p>
+                                <p class="tch-order-card__text text-white f-600 mb-0">153.000đ</p>  @* Tổng Tiền *@
+                            </div>
+                            <button type="button" class="btn btn--white text-orange " style="border-radius: 50px;">
+                                Đặt
+                                hàng
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="tch-checkout-box tch-checkout-box--remove-card float-lg-right">
+                        <p class="tch-checkout-box__text text-center mb-0">
+                            <span class="icon mr-2">
+                                <i aria-hidden="true" class="fa fa-trash"></i>
+                            </span>
+                            <span>Xóa đơn hàng</span>   @* Xóa đơn Hàng *@
+                        </p>
+                    </div>
+
+                    <div class="d-none d-lg-block clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

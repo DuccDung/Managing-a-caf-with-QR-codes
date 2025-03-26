@@ -1,0 +1,129 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    Layout = "HeaderFooter_TrangChu";
+    int? DhId = Context.Session.GetInt32("DonHangID_ol");
+    int? CustomerID = Context.Session.GetInt32("CustomerID");
+}
+@model WebQuanLyNhaHang.ViewModel.ViewModelCart
+<style>
+    .cart-header h1 {
+        color: #fa8c16;
+    }
+
+    .cart-item img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .cart-summary {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .btn-orange {
+        background-color: #fa8c16;
+        color: white;
+        border-radius: 8px;
+    }
+
+    .text-orange {
+        color: #fa8c16;
+    }
+
+    .form-control-soluong {
+        width: 70px;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<main>
+    <div class="container my-5">
+        <!-- Cart Header -->
+        <div class="cart-header text-center mb-4">
+            <h1><i class="fa fa-shopping-cart text-orange me-2"></i>Giỏ hàng của bạn</h1>
+        </div>
+
+        <!-- Cart Items -->
+         
+        <div class="row">
+            <div class="col-lg-8">
+                @foreach (var item in Model.CTHD_PctByDh(DhId))
+                {
+                    <div class="cart-item border-bottom py-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <img src="@item.PathPhoto" alt="Product Image">
+                            <div class="ms-3" style="width:300px;">
+                                <h5 class="mb-1">@item.TenSanPham</h5>
+                                <p class="mb-0 text-muted">Ghi Chú: @item.Condition</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">@String.Format("{0:N0}", item.ThanhTien)đ</p>
+                        <div class="form-control form-control-soluong">@item.SoLuong</div>
+                        <a href="#" class="text-danger"><i class="fa fa-trash"></i></a>
+                    </div>
+                }
+            </div>
+            @if(@Model.TongtienById(DhId).TongTien != 0){
+                <!-- Cart Summary -->
+                <form asp-controller="TrangChu" asp-action="OrderSuccess" method="post" class="col-lg-4">
+                    @* Đơn Hàng ID nó sẽ được lưu vào session => không cần gửi dhID_ol *@
+                    <div class="cart-summary">
+                        <div>
+                            <h4 class="text-orange">Thông Tin Nhận Hàng</h4>
+                            @if (Model.checkAddress(CustomerID) == true)
+                            {
+                                <div>
+                                    <div>
+                                        <h6>Địa Chỉ: </h6>
+                                        <p class="tch-delivery-card__description mb-0">
+                                            @Model.GetDiaChi(CustomerID)
+                                        </p>
+                                    </div>
+                                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                                        <h6 style="margin: 0;">Số Điện Thoại: </h6>
+                                        <div class="tch-delivery-card__description mb-0" style="margin-left: 5px;">@Model.GetSoDienThoai(CustomerID)</div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <input type="text" name="diachi" value="Nhập Địa Chỉ Nhận Hàng!" />
+                                <input type="text" name="sodienthoai" value="Nhập Số Điện Thoại Nhận Hàng!" />
+                            }
+
+                        </div>
+                        <hr>
+                        <h4 class="text-orange">Tổng cộng</h4>
+                        <div class="d-flex justify-content-between mt-3">
+                            <span>Tổng Tiền</span>
+                            <p>@String.Format("{0:N0}", @Model.TongtienById(DhId).TongTien)đ</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Phí giao hàng</span>
+                            <p>20.000đ</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Giảm giá</span>
+                            <p class="text-success">-20.000đ</p>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <h5>Thành tiền</h5>
+                            <input type="number" hidden name="tongtien" class="tch-delivery-card__description mb-0" value="@Model.TongtienById(DhId).TongTien" /> @* GỬi tiền *@
+                            <h5 class="text-orange">@String.Format("{0:N0}", @Model.TongtienById(DhId).TongTien)đ</h5>
+                        </div>
+                        <button type="submit" class="btn btn-orange w-100 mt-3">Đặt Đơn</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</main>
+
+

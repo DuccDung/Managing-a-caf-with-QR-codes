@@ -1,0 +1,57 @@
+﻿
+
+
+
+
+
+@media (min-width: 992px) {
+    .ml-lg--50 {
+        margin-left: calc(var(--space-50)* -1);
+    }
+
+    .d-lg-block {
+        display: block !important;
+    }
+
+    .float-lg-left {
+        float: left !important;
+    }
+
+    .tch-checkout-box.tch-checkout-box--delivery,
+    .tch-checkout-box.tch-checkout-box--lg-shadowbox,
+    .tch-checkout-box.tch-checkout-box--list-method,
+    .tch-checkout-box.tch-checkout-box--remove-card {
+        margin-left: var(--space-50);
+        padding: var(--space-16) 0;
+        width: calc(50% - var(--space-50));
+    }
+
+    .float-lg-right {
+        float: right !important;
+    }
+
+    .tch-checkout-box--lg-shadowbox {
+        border-radius: var(--space-8);
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, .12);
+        padding: 0;
+    }
+
+        .tch-checkout-box--lg-shadowbox .tch-checkout-box.tch-checkout-box.tch-checkout-box--list-submited {
+            border-bottom-left-radius: var(--space-8);
+            border-bottom-right-radius: var(--space-8);
+        }
+
+    .tch-checkout-box.tch-checkout-box--list-total {
+        padding-bottom: var(--space-30);
+    }
+
+    .tch-checkout-box.tch-checkout-box--remove-card {
+        padding-bottom: var(--space-16) !important;
+        padding-top: var(--space-30) !important;
+    }
+}
+@media (max-width: 992px) {
+    .tch-checkout-box.tch-checkout-border {
+        position: relative;
+    }
+}

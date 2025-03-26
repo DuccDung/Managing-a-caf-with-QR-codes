@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="~/asset/css/orderSuccess.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="order-success">
+        <div class="success-icon">✓</div>
+        <h2>Đặt hàng thành công!</h2>
+        <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi.</p>
+
+        <div class="order-details">
+            <h3>Chi tiết đơn hàng</h3>
+            <p><strong>Mã đơn hàng:</strong> @ViewBag.DonHangID </p>
+            <p><strong>Tổng tiền:</strong> @String.Format("{0:N0}",ViewBag.TongTien)VNĐ</p>
+            <p><strong>Phương thức thanh toán:</strong> Thanh toán khi nhận hàng</p>
+        </div>
+
+        <div class="shipping-info">
+            <h3>Thông tin giao hàng</h3>
+            <p><strong>Tên người nhận:</strong> Nguyễn Văn A</p>
+            <p><strong>Địa chỉ:</strong> @ViewBag.DiaChi</p>
+            <p><strong>Số điện thoại:</strong>@ViewBag.DiaChi</p>
+        </div>
+
+        <a asp-controller="TrangChu" asp-action="XuLyDonHang" class="btn" style="background-color: rgb(255 139 0);
+    padding: 5px;
+    text-decoration: none;
+    color: #fafafa;
+    border-radius: 5px;">Tiếp tục mua sắm</a>
+    </div>
+</body>
+
+</html>

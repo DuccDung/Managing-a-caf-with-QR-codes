@@ -1,0 +1,152 @@
+﻿@{
+    Layout = "Header_Left_Layout";
+}
+<style>
+    .revenue-form {
+        background-color: #fff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+    }
+
+    .revenue-form h2 {
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    .form-group input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .form-group input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+<div class="content-wrapper">
+    <!-- Container-fluid starts -->
+    <!-- Main content starts -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="main-header">
+                <h4>Dashboard</h4>
+            </div>
+        </div>
+        <!-- Main -->
+        <div class="row">
+            <div class="col-lg-3 col-md-2 col-sm-12">
+                <div class="revenue-form">
+                    <form action="/calculate_revenue" method="POST">
+                        <div class="form-group">
+                            <label for="start-date">Ngày bắt đầu:</label>
+                            <input type="date" id="start-date" name="start_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-date">Ngày kết thúc:</label>
+                            <input type="date" id="end-date" name="end_date" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Xem Kết Quả">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-10 col-sm-12">
+                <!-- Basic Table starts -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-header-text">Số Lượng Sản Phẩm Bán Được</h5>
+                        <p>Nhập Ngày Tháng Để Xem Kết Quả</p>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table class="table" id="content_dulieu">
+                                    <thead>
+                                        <tr>
+                                            <th>Mã Sản Phẩm</th>
+                                            <th>Tên Sản Phẩm</th>
+                                            <th>Số Lượng Bán Được</th>
+                                            <th>Doanh Thu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>...</td>
+                                            <td>...</td>
+                                            <td>...</td>
+                                            <td>...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--End Main -->
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Khi form được submit
+        $('.revenue-form form').on('submit', function(e) {
+            e.preventDefault(); // Ngăn form submit mặc định
+
+            // Lấy giá trị từ các input ngày bắt đầu và ngày kết thúc
+            var startDate = $('#start-date').val();
+            var endDate = $('#end-date').val();
+
+            // AJAX request
+            $.ajax({
+                url: '/Admin/CalculateRevenue', // Thay thế bằng đường dẫn đến controller của bạn
+                method: 'POST',
+                data: {
+                    start_date: startDate,
+                    end_date: endDate
+                },
+                success: function(response) {
+                    // Thay thế nội dung của bảng bằng kết quả trả về từ PartialView
+                    $('#content_dulieu').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Có lỗi xảy ra:", error);
+                }
+            });
+        });
+    });
+</script>

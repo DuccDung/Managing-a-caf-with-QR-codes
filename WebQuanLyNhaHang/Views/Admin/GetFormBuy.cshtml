@@ -1,0 +1,374 @@
+﻿<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+@model List<WebQuanLyNhaHang.ViewModel.CTDH_Product>
+
+<style>
+    .btn-right {
+        display: block;
+        margin-left: auto;
+        margin-top: 20px;
+    }
+
+    /* CSS cho overlay */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+        z-index: 1000;
+        pointer-events: none;
+    }
+
+        .overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+    /* CSS cho bảng thanh toán */
+    .container-buy {
+        width: 80%;
+        max-width: 800px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+        .container-buy.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    /* CSS cho bảng */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    tfoot {
+        font-weight: bold;
+    }
+
+    /* CSS cho bảng thông báo */
+    .notification-box {
+        width: 80%;
+        max-width: 500px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1001;
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+        .notification-box.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    /* CSS cho icon thành công */
+    .success-icon {
+        font-size: 50px;
+        color: #4CAF50;
+        margin-bottom: 20px;
+    }
+
+    /* CSS cho các nút */
+    .btn {
+        display: inline-block;
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-close {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .btn-continue {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+
+    /* Tổng tiền */
+    .summary-container,
+    .total-container {
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+        .summary-container div,
+        .total-container div {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            color: #555;
+        }
+
+    .price-box {
+        border: 1px solid #ddd;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        text-align: right;
+        min-width: 80px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .total-container {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+        .buttons-container button {
+            margin: 0 10px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    .cash-button {
+        background-color: #4CAF50;
+    }
+
+    .credit-button {
+        background-color: #008CBA;
+    }
+
+    .print-button {
+        background-color: #f44336;
+    }
+
+    .buttons-container button:hover {
+        opacity: 0.9;
+    }
+    hr{
+        margin:0;
+    }
+
+    .input-box {
+        border: 1px solid #ddd;
+        padding: 5px;
+        border-radius: 5px;
+        text-align: right;
+        width: 80px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .cash-button {
+        background-color: #4CAF50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 143px;
+        color: #fff;
+        border-radius:5px;
+    }
+
+        .cash-button i{
+            margin-right:3px;
+        }
+
+        .credit-button {
+        background-color: #008CBA;
+    }
+
+    .print-button {
+        background-color: #f44336;
+    }
+
+    .buttons-container button:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<main id="component-FormBuy-success">
+    <div class="overlay"></div>
+
+    <div class="container-buy">
+        <h1>Bảng Thanh Toán</h1>
+        <div class="Payment__Form-body" style="border: 0.1px solid #999; border-radius: 5px; padding: 13px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Số Lượng</th>
+                        <th>Đơn Giá</th>
+                        <th>Tổng Tiền Từng Sản Phẩm</th>
+                    </tr>
+                </thead>
+                <tbody data-banid="@Model.FirstOrDefault()?.BanId">
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td>@item.TenSanPham</td>
+                            <td>@item.SoLuong</td>
+                            <td>@string.Format("{0:N0}", item.DonGia)VND</td>
+                            <td>@item.ThanhTien</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="summary-container">
+            <div>
+                <span><i class="fas fa-money-bill-wave"></i> Thanh toán:</span><span id="totalAmount" class="price-box">@string.Format("{0:N0}", Model.Sum(x => x.ThanhTien))VND</span>
+            </div>
+            <hr>
+            <div>
+                <span><i class="fas fa-hand-holding-usd"></i> Khách đưa:</span>
+                <input type="number" id="customerPaid" class="input-box" placeholder="Nhập số tiền"
+                       oninput="calculateChange()" />
+            </div>
+            <hr>
+            <div>
+                <span><i class="fas fa-coins"></i> Tiền thừa:</span>
+                <span id="changeAmount" class="price-box">0</span>
+            </div>
+            <hr>
+        </div>
+
+        <div class="total-container">
+            <div><span><i class="fas fa-cash-register"></i> Tổng tiền:</span><span class="price-box">@string.Format("{0:N0}", Model.Sum(x => x.ThanhTien))VND</span></div>
+        </div>
+        <div class="btn-right buttons-container">
+            <a asp-controller="Admin" asp-action="Bill" asp-route-BanId="@Model.FirstOrDefault()?.BanId" class="cash-button"><i class="fas fa-print"></i> In Hóa Đơn</a>
+            <button type="button" class="btn btn-flat flat-primary txt-primary" onclick="submitPayment()"><i class="fas fa-wallet"></i> Thanh Toán</button>
+            <form method="post" asp-action="CreatePaymentUrlVnpay" asp-controller="Payment">
+                <input name="Name" type="hidden" value="Khách Hàng" />
+                <input name="Amount" type="hidden" value="@Model.Sum(x => x.ThanhTien)" />
+                <input name="OrderDescription" type="hidden" value="@Model.FirstOrDefault()?.BanId" />
+                <input name="OrderType" type="hidden" value="other" />
+
+                <button type="submit" class="credit-button"><i class="fas fa-credit-card"></i> Chuyển Khoản</button>
+            </form>
+            <button type="button" class="btn btn-flat flat-primary txt-primary" onclick="hideTable()">Đóng</button>
+        </div>
+    </div>
+
+
+    <div class="notification-box" id="successMessage">
+        <i class="fas fa-check-circle success-icon"></i> <!-- Icon thành công -->
+        <h2>Thanh Toán Thành Công!</h2>
+        <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
+        <p>Chúc bạn có một ngày vui vẻ!</p>
+        <button class="btn btn-continue" onclick="continueShopping()">Tiếp Tục</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('.container-buy').classList.add('visible');
+            document.querySelector('.overlay').classList.add('visible');
+        });
+
+        function hideTable() {
+            document.querySelector('.container-buy').classList.remove('visible');
+            document.querySelector('.overlay').classList.remove('visible');
+        }
+
+        function submitPayment() {
+            var banId = document.querySelector('tbody').getAttribute('data-banid');
+
+            $.ajax({  // Lấy Bàn ID gửi đi để thanh toán
+                url: '/Admin/ProcessPayment',
+                type: 'GET',
+                data: { BanId: banId },
+                success: function () {
+                    hideTable();
+                    document.querySelector('.notification-box').classList.add('visible');
+                    document.querySelector('.overlay').classList.add('visible');
+                },
+                error: function (error) {
+                    console.error('Lỗi khi xử lý thanh toán:', error);
+                    alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại.');
+                }
+            });
+        }
+
+        function continueShopping() {
+            document.querySelector('.notification-box').classList.remove('visible');
+            document.querySelector('.overlay').classList.remove('visible');
+            location.reload(); // Load lại trang sau khi nhấn nút "Tiếp Tục"
+        }
+    </script>
+
+    <script> // Tính Tiền thừa
+        function calculateChange() {
+            // Lấy số tiền thanh toán từ HTML
+            const totalAmount = parseFloat(document.getElementById("totalAmount").innerText.replace(/,/g, ''));
+            // Lấy số tiền khách đưa từ input
+            const customerPaid = parseFloat(document.getElementById("customerPaid").value);
+
+            // Kiểm tra nếu customerPaid không phải là số
+            if (isNaN(customerPaid) || customerPaid <= 0) {
+                document.getElementById("changeAmount").innerText = "0";
+                return;
+            }
+
+            // Tính tiền thừa
+            let change = customerPaid - totalAmount;
+
+            // Đảm bảo tiền thừa không âm
+            if (change < 0) {
+                change = 0;
+            }
+
+            // Hiển thị kết quả vào span "changeAmount" với định dạng VNĐ
+            document.getElementById("changeAmount").innerText = change.toLocaleString('vi-VN');
+        }
+    </script>
+
+</main>
+

@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.order-success {
+    background-color: white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 48px;
+    color: #ff424e;
+    /* Shopee's primary color */
+    margin-bottom: 15px;
+}
+
+.order-success h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.order-success p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.order-details,
+.shipping-info {
+    text-align: left;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+}
+
+    .order-details h3,
+    .shipping-info h3 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .order-details p,
+    .shipping-info p {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+.back-home-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #ff424e;
+    /* Shopee's primary color */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .back-home-btn:hover {
+        background-color: #e0333b;
+    }

@@ -1,0 +1,26 @@
+﻿@model List<WebQuanLyNhaHang.ViewModel.ProductSalesViewModel>
+
+<div class="col-sm-12 table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã Sản Phẩm</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Số Lượng Bán Được</th>
+                <th>Doanh Thu</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.TenSanPham</td>
+                    <td>@item.SoLuong</td>
+                    <td>@string.Format("{0:N0}", (item.SoLuong ?? 0) * (item.DonGia ?? 0))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

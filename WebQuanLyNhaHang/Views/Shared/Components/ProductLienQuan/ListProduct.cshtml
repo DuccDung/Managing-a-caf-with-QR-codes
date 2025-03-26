@@ -1,0 +1,13 @@
+﻿@model List<WebQuanLyNhaHang.Models.Product>
+@foreach(var item in Model)
+{
+    <div class="col-md-3">
+        <a asp-controller="TrangChu" asp-action="CTDH_TrangChu" asp-route-ProductID="@item.ProductId" class="card h-100">
+            <img style="height: 300px;" src="@item.PathPhoto" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">@item.TenSanPham</h5>
+                <p class="card-text">@String.Format("{0:N0}", item.GiaTien)đ</p>
+            </div>
+        </a>
+    </div>
+}

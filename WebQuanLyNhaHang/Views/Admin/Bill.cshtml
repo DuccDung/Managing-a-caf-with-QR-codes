@@ -1,0 +1,135 @@
+﻿@{
+    Layout = "Header_Left_Layout";
+    int? DhId=-1;
+}
+@model List<WebQuanLyNhaHang.ViewModel.CTDH_Product>
+<div class="content-wrapper">
+    <!-- Container-fluid starts -->
+    <!-- Main content starts -->
+    <div class="row">
+        <div class="col-sm-12 p-0">
+            <div class="main-header">
+                <h4>In Hóa Đơn</h4>
+                <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Admin" asp-action="Index">
+                            <i class="icofont icofont-home"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Admin" asp-action="Ban">Trang bán Hàng</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a>In Bill</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .bill-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .bill-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .bill-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .bill-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .bill-item p {
+            margin: 0;
+        }
+
+        .bill-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .bill-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #888;
+        }
+    }
+    </style>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <main>
+                <div class="bill-container" id="bill">
+                    <div class="bill-header">
+                        <h2>Bill Thanh Toán</h2>
+                        <p>Coffee Shop DAB</p>
+                    </div>
+                    <table data-banid="@Model.FirstOrDefault()?.BanId">
+                        <tr>
+                            <th>Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Thành Tiền</th>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.TenSanPham</td>
+                                    <td>@item.SoLuong</td>
+                                    <td>@string.Format("{0:N0}", item.ThanhTien)VND</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr>
+                    @string.Format("{0:N0}", Model.Sum(x => x.ThanhTien))VND
+                    <div class="bill-footer">
+                        <p>Cảm ơn quý khách đã sử dụng dịch vụ!</p>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" onclick="printBill()"
+                            class="print-button btn btn-inverse-success waves-effect waves-light">
+                        In hóa đơn
+                    </button>
+                </div>
+
+                <script>
+                    function printBill() {
+                        var printContents = document.getElementById('bill').innerHTML;
+                        var originalContents = document.body.innerHTML;
+
+                        document.body.innerHTML = printContents;
+                        window.print();
+                        document.body.innerHTML = originalContents;
+                    }
+                </script>
+            </main>
+        </div>
+    </div>
+  
+    <!--End Main -->
+</div>
