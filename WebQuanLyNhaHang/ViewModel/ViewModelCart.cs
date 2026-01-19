@@ -24,9 +24,19 @@ namespace WebQuanLyNhaHang.ViewModel
                              PathPhoto = product.PathPhoto,
                              SoLuong = CTHD.SoLuong,
                              TenSanPham = product.TenSanPham,
-                             ThanhTien = CTHD.ThanhTien,
+                             ThanhTien = product.GiaTien * CTHD.SoLuong,
                              Condition = CTHD.Ghichu
                          };
+            foreach (var item in result.ToList()) { 
+                var orderDetail = _context.ChiTietHoaDons.Find(item.CthdId);
+                var order = _context.DonHangs.Find(DhId);
+
+                if (orderDetail != null) orderDetail.ThanhTien = item.ThanhTien;
+                if (order != null) order.TongTien = _context.ChiTietHoaDons
+                    .Where(cthd => cthd.DhId == DhId)
+                    .Sum(cthd => cthd.ThanhTien);
+                _context.SaveChanges();
+            }
             if(result == null) // nếu đơn hàng về null mà ép Tolist(); nó sẽ bị bug => ta tạo 1 list mới
             {
                 return new List<CTDH_Product>();
@@ -45,7 +55,8 @@ namespace WebQuanLyNhaHang.ViewModel
             }
             if(result.TongTien == null)
             {
-                result.TongTien = 0;
+                CTHD_PctByDh(DhId);
+                //result.TongTien = 0;
             }
             return result;
         }

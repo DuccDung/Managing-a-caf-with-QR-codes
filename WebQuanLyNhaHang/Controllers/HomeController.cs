@@ -155,11 +155,13 @@ namespace WebQuanLyNhaHang.Controllers
         
             if(DH != null) // TH: Bàn đã Có đơn hàngn (thì ta tạo Thêm chi tiết hóa đơn)
             {
+                var product = _qlnhaHangBtlContext.Products.Find(productid); 
                 _qlnhaHangBtlContext.ChiTietHoaDons.Add(new ChiTietHoaDon {
                     DhId = DH.DhId, // mã đơn hàng của bàn đó
                     ProductId = productid, // mã sản phẩm vừa thêm
                     Ghichu ="Trạng Thái: "+condition+" Ghi Chú: "+ghichu, // ghi chú
                     SoLuong = soluong, //số Lượng 
+                    ThanhTien = product?.GiaTien * soluong
                 });
                 _qlnhaHangBtlContext.SaveChanges();
             }
@@ -174,6 +176,7 @@ namespace WebQuanLyNhaHang.Controllers
         public IActionResult Cart(int DhId) // fix
         {
             ViewModelCart viewModelCart = new ViewModelCart(_qlnhaHangBtlContext);
+            viewModelCart.CTHD_PctByDh(DhId);
             return View(viewModelCart);
         }
 

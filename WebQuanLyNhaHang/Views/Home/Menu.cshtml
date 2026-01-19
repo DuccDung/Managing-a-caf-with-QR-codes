@@ -27,13 +27,22 @@
     <link rel="stylesheet" href="~/asset/css/menu.css">
     <title>Kính chào quý khách</title>
 </head>
+<style>
+    .product__item-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover; 
+        object-position: center; 
+        display: block;
+    }
+</style>
 <body>
     <div class="app__menu">
         <div class="header__menu-inner" style="position:fixed; top:0; left:0; right:0; z-index:1000;">
             <a asp-controller="Home" asp-action="Service">
-                   <div class="call-staff--mini-home">
-                <i class="fa-solid fa-house"></i>
-            </div>
+                <div class="call-staff--mini-home">
+                    <i class="fa-solid fa-house"></i>
+                </div>
             </a>
             <div class="search-area animation">
                 <div class="header-area__search-form">
@@ -62,9 +71,9 @@
                         <table>
                             <tr class="menu-item">
                                 <td class="menu__product-img" style="width:10px">
-                                    <div class="product__item-img"
-                                         style="background-image: url(@product.PathPhoto);">
-                                    </div>
+                                    <img src="@product.PathPhoto"
+                                         class="product__item-img"
+                                         alt="">
                                 </td>
                                 <td class="menu__product-name">
                                     <div>@product.TenSanPham</div>
@@ -72,7 +81,7 @@
                                         @String.Format("{0:N0}", product.GiaTien)đ
                                     </div>
                                 </td>
-                               
+
                                 <td class="menu__product-plus">
                                     @* @if(Model.CountProductDetail(DhId ,product.ProductId) != 0){
                                         @await Component.InvokeAsync("MenuItemEdit", new { ProductId = product.ProductId, DhId = DhId })
@@ -104,7 +113,7 @@
                                 <i class="fa-solid fa-angle-right"></i>
                             </div>
                         </div>
-                </a>
+                    </a>
                 </div>
             }
         }
@@ -129,7 +138,7 @@
             });
         }
 
-        // chức năng tìm kiếm trong trang menu 
+        // chức năng tìm kiếm trong trang menu
         $(document).ready(function () {
             // Sự kiện input cho ô tìm kiếm
             $('#txtSearchBox').on('input', function () {

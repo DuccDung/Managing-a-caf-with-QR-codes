@@ -14,7 +14,7 @@ namespace WebQuanLyNhaHang.Controllers
     {
         private readonly QlnhaHangBtlContext _context;
         public readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductsController(QlnhaHangBtlContext context , IWebHostEnvironment webHostEnvironment)
+        public ProductsController(QlnhaHangBtlContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
@@ -80,7 +80,8 @@ namespace WebQuanLyNhaHang.Controllers
                         Directory.CreateDirectory(uploadFolderPath);
 
                         // Tạo tên file mới để tránh trùng lặp
-                        var fileName = Path.GetRandomFileName() + fileExtension;
+                        //var fileName = Path.GetRandomFileName() + fileExtension;
+                        var fileName = fileExtension;
                         var filePath = Path.Combine(uploadFolderPath, fileName);
 
                         // Lưu file lên server
@@ -125,67 +126,141 @@ namespace WebQuanLyNhaHang.Controllers
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("ProductId,CateId,TenSanPham,MoTa,GiaTien,SoLuong")] Product product, IFormFile FileInterface)
+        //{
+        //    if (id != product.ProductId)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            // Kiểm tra nếu file được chọn và không null
+        //            if (FileInterface != null && FileInterface.Length > 0)
+        //            {
+        //                var fileExtension = Path.GetExtension(FileInterface.FileName).ToLowerInvariant();
+
+        //                // Kiểm tra đuôi file
+        //                if (!string.IsNullOrEmpty(fileExtension))
+        //                {
+        //                    // Thiết lập đường dẫn lưu trữ file
+        //                    var uploadFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "asset/img/imgWeb");
+        //                    Directory.CreateDirectory(uploadFolderPath);
+
+        //                    // Tạo tên file mới để tránh trùng lặp
+        //                    var fileName = Path.GetRandomFileName() + fileExtension;
+        //                    var filePath = Path.Combine(uploadFolderPath, fileName);
+
+        //                    // Lưu file lên server
+        //                    using (var stream = new FileStream(filePath, FileMode.Create))
+        //                    {
+        //                        await FileInterface.CopyToAsync(stream);
+        //                    }
+
+        //                    // Cập nhật đường dẫn ảnh trong cơ sở dữ liệu
+        //                    product.PathPhoto = Path.Combine("asset/img/imgWeb", fileName);
+        //                }
+        //            }
+
+        //            // Cập nhật thông tin sản phẩm vào context và lưu thay đổi
+        //            _context.Update(product);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!ProductExists(product.ProductId))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction("Index" , "Products");
+        //    }
+
+        //    // Hiển thị lại form nếu model state không hợp lệ
+        //    ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "TenLoaiSanPham", product.CateId);
+        //    return View(product);
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,CateId,TenSanPham,MoTa,GiaTien,SoLuong")] Product product, IFormFile FileInterface)
+        public async Task<IActionResult> Edit(
+                    int id,
+                    [Bind("ProductId,CateId,TenSanPham,MoTa,GiaTien,SoLuong")] Product product,
+                    IFormFile FileInterface)
         {
             if (id != product.ProductId)
-            {
                 return NotFound();
-            }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    // Kiểm tra nếu file được chọn và không null
-                    if (FileInterface != null && FileInterface.Length > 0)
-                    {
-                        var fileExtension = Path.GetExtension(FileInterface.FileName).ToLowerInvariant();
-
-                        // Kiểm tra đuôi file
-                        if (!string.IsNullOrEmpty(fileExtension))
-                        {
-                            // Thiết lập đường dẫn lưu trữ file
-                            var uploadFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "asset/img/imgWeb");
-                            Directory.CreateDirectory(uploadFolderPath);
-
-                            // Tạo tên file mới để tránh trùng lặp
-                            var fileName = Path.GetRandomFileName() + fileExtension;
-                            var filePath = Path.Combine(uploadFolderPath, fileName);
-
-                            // Lưu file lên server
-                            using (var stream = new FileStream(filePath, FileMode.Create))
-                            {
-                                await FileInterface.CopyToAsync(stream);
-                            }
-
-                            // Cập nhật đường dẫn ảnh trong cơ sở dữ liệu
-                            product.PathPhoto = Path.Combine("asset/img/imgWeb", fileName);
-                        }
-                    }
-
-                    // Cập nhật thông tin sản phẩm vào context và lưu thay đổi
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index" , "Products");
+                ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "TenLoaiSanPham", product.CateId);
+                return View(product);
             }
 
-            // Hiển thị lại form nếu model state không hợp lệ
-            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "TenLoaiSanPham", product.CateId);
-            return View(product);
+            try
+            {
+                // Lấy bản ghi hiện tại trong DB để update (giữ PathPhoto cũ nếu không upload mới)
+                var existingProduct = await _context.Products
+                    .FirstOrDefaultAsync(p => p.ProductId == id);
+
+                if (existingProduct == null)
+                    return NotFound();
+
+                // Update các field được phép sửa
+                existingProduct.CateId = product.CateId;
+                existingProduct.TenSanPham = product.TenSanPham;
+                existingProduct.MoTa = product.MoTa;
+                existingProduct.GiaTien = product.GiaTien;
+
+                // Nếu có upload file mới
+                if (FileInterface != null && FileInterface.Length > 0)
+                {
+                    var fileExtension = Path.GetExtension(FileInterface.FileName).ToLowerInvariant();
+
+                    // (Tuỳ chọn) chỉ cho phép ảnh
+                    var allowedExts = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                    if (string.IsNullOrWhiteSpace(fileExtension) || !allowedExts.Contains(fileExtension))
+                    {
+                        ModelState.AddModelError("FileInterface", "Chỉ hỗ trợ file ảnh: .jpg, .jpeg, .png, .gif, .webp");
+                        ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "TenLoaiSanPham", product.CateId);
+                        return View(product);
+                    }
+
+                    // Thư mục lưu ảnh
+                    var uploadFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "asset", "img", "imgWeb");
+                    Directory.CreateDirectory(uploadFolderPath);
+
+                    // Tạo tên file mới
+                    var fileName = $"{Guid.NewGuid():N}{fileExtension}";
+                    var filePath = Path.Combine(uploadFolderPath, fileName);
+
+                    // Lưu file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await FileInterface.CopyToAsync(stream);
+                    }
+
+                    // Lưu đường dẫn dạng URL web đúng chuẩn
+                    existingProduct.PathPhoto = $"/asset/img/imgWeb/{fileName}";
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Products");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(product.ProductId))
+                    return NotFound();
+
+                throw;
+            }
         }
 
 
